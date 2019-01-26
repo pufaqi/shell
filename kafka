@@ -1,0 +1,61 @@
+#!/bin/bash
+a=$1
+if [ ! -n "$1" ];then
+    echo "please input zk_start|zk_stop|zk_restart|kafka_start|kafka_stop|kafka_restart"
+fi
+function zk_start
+{
+echo "starting........"
+cd /opt/kafka/
+nohup /opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties &
+echo "start succeed......"
+}
+function zk_stop
+{
+echo "stoping......."
+/opt/kafka/bin/zookeeper-server-stop.sh
+echo "stop succeed......"
+}
+function zk_restart
+{
+zk_stop
+zk_start
+}
+function kafka_start
+{
+echo "starting......"
+cd /opt/kafka/
+nohup /opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties &
+echo "start succeed....."
+}
+function kafka_stop
+{
+echo "stoping...."
+/opt/kafka/bin/kafka-server-stop.sh
+echo "stop succeed...."
+}
+function kafka_restart
+{
+kafka_stop
+kafka_start
+}
+case $1 in
+    "zk_start")
+    zk_start
+    ;;
+    "zk_stop")
+    zk_stop
+    ;;
+    "zk_restart")
+    zk_start
+    ;;
+    "kafka_stop")
+    kafka_stop
+    ;;
+    "kafka_start")
+    kafka_start
+    ;;
+    "kafka_restart")
+    kafka_restart
+    ;;
+esac
